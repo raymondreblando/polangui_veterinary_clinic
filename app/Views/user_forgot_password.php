@@ -21,8 +21,8 @@ include_once('Partials/header.php');
         <h3 class="text-2xl text-primary font-bold mb-6">Forgot Password?</h3>
         <p class="text-gray-500 font-medium mb-6">Don't worry, it happens to the best of us. Enter the email address associated with your account, and we'll help you reset your password.</p>
 
-        <div class="flex items-center gap-3 bg-light-gray mb-12 p-4">
-          <input type="text" name="email" class="w-full h-12 text-sm text-ash-gray placeholder:text-ash-gray bg-light-gray px-4 rounded-sm" placeholder="Account email address">
+        <div class="relative group flex items-center gap-3 bg-light-gray mb-12 p-4">
+          <input type="text" name="email" class="w-full h-12 text-sm text-ash-gray placeholder:text-ash-gray bg-light-gray px-4 rounded-sm" placeholder="Account email address" required>
           <button type="button" id="sendResetCode" class="w-max h-12 text-white font-medium bg-primary rounded-sm px-4">Reset</button>
         </div>
 

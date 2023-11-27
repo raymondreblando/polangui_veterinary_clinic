@@ -38,7 +38,7 @@ include('Partials/top_bar.php');
             <div class="sm:col-span-4">
               <label for="pet" class="block text-sm text-black font-semibold mb-1">Owner</label>
               <div class="search-select-container group relative flex items-center gap-2 bg-gray-100 rounded-sm px-6">
-                <input type="hidden" name="p_owner" class="pet-input" hidden>
+                <input type="hidden" name="p_owner" class="pet-input" required>
                 <input type="text" id="searchElement" class="search-select w-full h-12 text-xs font-medium text-ash-gray placeholder:text-ash-gray bg-gray-100" autocomplete="off" placeholder="Search Owner">
                 <button type="button" class="clear-search-btn hidden group-focus-within:block"><i class="ri-close-fill"></i></button>
 
@@ -61,6 +61,7 @@ include('Partials/top_bar.php');
                   <?php endif ?>
                 </ul>
               </div>
+              <p class="hidden text-xs font-semibold text-red-500 mt-2">Owner is required</p>
             </div>
             <div class="sm:col-span-2">
               <label for="p_species" class="block text-sm text-black font-semibold mb-1">Species</label>

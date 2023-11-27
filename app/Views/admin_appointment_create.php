@@ -48,6 +48,7 @@ include('Partials/top_bar.php');
                   <?php endif ?>
                 </ul>
               </div>
+              <p class="hidden text-xs font-semibold text-red-500 mt-2">Pet is required</p>
             </div>
             <div>
               <label for="a_date_time" class="block text-sm text-black font-semibold mb-1">Date & Time</label>

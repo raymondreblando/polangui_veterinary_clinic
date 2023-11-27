@@ -47,6 +47,7 @@ class RequestProvider {
                         $_SESSION["uid"] = $user->user_id;
                         $_SESSION["fullname"] = $user->fname." ".$user->lname;
                         $_SESSION["role"] = $user->role_id;
+                        $this->database->DbQuery('UPDATE `users` SET `active` = "yes" WHERE `user_id` = ?', [$user->user_id]);
                         if($user->role_id === '1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9'){
                               SystemFunctions::notification('Successfully Verify', 'success', 500, 'no', $this->SYSTEM_URL."/admin-homepage");
                         }else{
@@ -391,24 +392,41 @@ class RequestProvider {
             if(empty($a_pet) OR empty($a_date_time) OR empty($a_purpose)){
                   SystemFunctions::notification('Please fill up all the required field', 'error', 3000, 'no', '');
             }else{
-                  $this->database->DBQuery("INSERT INTO `appointment` (`a_id`,`pet_id`,`a_date_time`,`a_purpose`,`a_date_added`,`a_added_by`,`a_msg`) VALUES (?,?,?,?,?,?,?)", [$this->generateUuid(), $a_pet, $a_date_time, $a_purpose, date("Y-m-d H:i:s"), $_SESSION['uid'], $a_message]);
-
-                  $this->database->DBQuery("SELECT users.user_id,users.fname,users.lname,pets.pet_id, pets.pet_name, pets.pet_owner, users.email FROM `pets` LEFT JOIN `users` ON users.user_id=pets.pet_owner WHERE pets.pet_id = ?", [$a_pet]);
-                              $getOwner = $this->database->fetch();
+                  $providedDateTimeObj = new \DateTime($a_date_time);
+                  $maxDifference = 3600; // Difference in seconds (1 hour)
+                  $isThereConflict = 'no';
                   
-                  if($_SESSION['role'] === "1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9"){
-                        if(!empty($a_message)){
-                              $this->email->sendEmail(
-                                    $getOwner->email, 
-                                    'Appointment', 
-                                    $a_message.'<br><br>Pet Name: '.$getOwner->pet_name.'<br>Appointment Date: '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A').'<br>Appointment Purpose: '.$a_purpose
-                              );
+                  $this->database->DBQuery("SELECT `a_date_time`,`a_status` FROM `appointment` WHERE DATE(`a_date_time`) = ? AND `a_status` = 'Approved'", [SystemFunctions::formatDateTime($a_date_time, 'Y-m-d')]);
+                  foreach ($this->database->fetchAll() as $row) {
+                        $databaseDateTimeObj = new \DateTime($row->a_date_time);
+                        $difference = abs($providedDateTimeObj->getTimestamp() - $databaseDateTimeObj->getTimestamp());
+                        if ($difference < $maxDifference) {
+                              $isThereConflict = 'yes';
+                              $conflictingDate = $databaseDateTimeObj->format("M j, Y");
+                              $conflictingTime = $databaseDateTimeObj->format("g:i A");
+                              SystemFunctions::notification('Apologies, but the date and time you provided are unavailable as there is already a scheduled appointment for '.$conflictingDate.', at '.$conflictingTime.'', 'error', 6000, 'no', '');
                         }
-                        $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`) VALUES (?,?,?,?)", [$this->generateUuid(), $getOwner->user_id, 'We created a new appointment for '.$getOwner->pet_name.' on '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s")]);
-                  }else{
-                        $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`) VALUES (?,?,?,?)", [$this->generateUuid(), '1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9', $getOwner->fname. ' ' .$getOwner->lname. ' schedule a new appointment on '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s")]);
                   }
-                  SystemFunctions::notification("Appointment Successfully Save", 'success', 1500, 'yes', '');
+
+                  if($isThereConflict === 'no'){
+                        $this->database->DBQuery("INSERT INTO `appointment` (`a_id`,`pet_id`,`a_date_time`,`a_purpose`,`a_date_added`,`a_added_by`,`a_msg`) VALUES (?,?,?,?,?,?,?)", [$this->generateUuid(), $a_pet, $a_date_time, $a_purpose, date("Y-m-d H:i:s"), $_SESSION['uid'], $a_message]);
+                        $this->database->DBQuery("SELECT users.user_id,users.fname,users.lname,pets.pet_id, pets.pet_name, pets.pet_owner, users.email FROM `pets` LEFT JOIN `users` ON users.user_id=pets.pet_owner WHERE pets.pet_id = ?", [$a_pet]);
+                        $getOwner = $this->database->fetch();
+
+                        if($_SESSION['role'] === "1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9"){
+                              if(!empty($a_message)){
+                                    $this->email->sendEmail(
+                                          $getOwner->email, 
+                                          'Appointment', 
+                                          $a_message.'<br><br>Pet Name: '.$getOwner->pet_name.'<br>Appointment Date: '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A').'<br>Appointment Purpose: '.$a_purpose
+                                    );
+                              }
+                              $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`) VALUES (?,?,?,?)", [$this->generateUuid(), $getOwner->user_id, 'We created a new appointment for '.$getOwner->pet_name.' on '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s")]);
+                        }else{
+                              $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`) VALUES (?,?,?,?)", [$this->generateUuid(), '1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9', $getOwner->fname. ' ' .$getOwner->lname. ' schedule a new appointment on '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s")]);
+                        }
+                        SystemFunctions::notification("Appointment Successfully Save", 'success', 1500, 'yes', '');
+                  }
             }
     }
     public function processAppointmentCancel(){

@@ -116,7 +116,11 @@ function validateForm(form) {
       let valid = true;
       $('#' + form + ' :input[required]').each(function () {
             if ($.trim($(this).val()) === '') {
-                  $(this).addClass('invalid');
+                  if ($(this).parent().hasClass('group')) {
+                        $(this).parent().addClass('invalid')
+                  }else{
+                        $(this).addClass('invalid');
+                  }
 
                   if ($(this).parent().hasClass('relative')) {
                         $(this).parent().siblings('p').removeClass('hidden');
@@ -126,7 +130,11 @@ function validateForm(form) {
 
                   valid = false;
             } else {
-                  $(this).removeClass('invalid');
+                  if ($(this).parent().hasClass('group')) {
+                        $(this).parent().removeClass('invalid')
+                  }else{
+                        $(this).removeClass('invalid');
+                  }
 
                   if ($(this).parent().hasClass('relative')) {
                         $(this).parent().siblings('p').addClass('hidden');
@@ -162,7 +170,11 @@ function registerUsers() {
       }
 }
 function forgotPassword(){
-      transferData('form_forgot',SYSTEM_URL + '/process_user_forgot');
+      if (validateForm('form_forgot')) {
+            transferData('form_forgot',SYSTEM_URL + '/process_user_forgot');
+      } else {
+            showNotification('Please fill up the required field','error',3000);
+      }
 }
 function notificationSeen(){
       $.ajax({
@@ -174,7 +186,11 @@ $('#login').click(function () {loginUsers()});
 $('#register').click(function () {registerUsers()});
 $('#sendResetCode').click(function () {forgotPassword()});
 $(document).on('click', '#verifyCode', function () {
-      transferData('form_verify_code', SYSTEM_URL + '/process_forgot_verify');
+      if (validateForm('form_verify_code')) {
+            transferData('form_verify_code', SYSTEM_URL + '/process_forgot_verify');
+      } else {
+            showNotification('Please fill up the required field','error',3000);
+      }
 });
 $(document).on('click', '#changePasswordReset', function () {
       if (validateForm('form_reset')) {

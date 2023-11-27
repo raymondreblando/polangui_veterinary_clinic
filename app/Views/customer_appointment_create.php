@@ -47,15 +47,16 @@ include('Partials/top_bar.php');
                   <?php endif ?>
                 </ul>
               </div>
+              <p class="hidden text-xs font-semibold text-red-500 mt-2">Pet is required</p>
             </div>
             <div>
               <label for="a_date_time" class="block text-sm text-black font-semibold mb-1">Date & Time</label>
-              <input type="datetime-local" name="a_date_time" class="w-full h-12 text-xs font-medium text-ash-gray placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm">
-              <p class="hidden text-xs font-semibold text-red-500 mt-2">Date is not available</p>
+              <input type="datetime-local" name="a_date_time" class="w-full h-12 text-xs font-medium text-ash-gray placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" required>
+              <p class="hidden text-xs font-semibold text-red-500 mt-2">Date is required</p>
             </div>
             <div>
               <label for="a_purpose" class="block text-sm text-black font-semibold mb-1">Purpose</label>
-              <input type="text" name="a_purpose" class="w-full h-12 text-xs font-medium text-ash-gray placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Enter the purpose">
+              <input type="text" name="a_purpose" class="w-full h-12 text-xs font-medium text-ash-gray placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Enter the purpose" required>
               <p class="hidden text-xs font-semibold text-red-500 mt-2">Purpose is required</p>
             </div>
             <button type="button" id="appoinmentCreate" class="w-max h-12 text-sm text-white font-medium bg-primary px-8 rounded-sm">Save</button>

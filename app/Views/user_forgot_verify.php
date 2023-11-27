@@ -29,10 +29,10 @@ include_once('Partials/header.php');
         <p class="text-gray-500 font-medium text-center mb-12">To ensure the security of your account, we need to verify that this email address belongs to you. Please check your email for a verification code and enter it below.</p>
 
         <div class="flex items-center justify-center gap-3 mb-4">
-          <input type="text" name="code1" maxlength="1" onkeypress="return isNumeric(event)" oninput="maxNumLength(this)" class="code-input w-20 h-20 text-2xl text-black text-center font-semibold border border-gray-300 focus:border-primary rounded-sm">
-          <input type="text" name="code2" maxlength="1" onkeypress="return isNumeric(event)" oninput="maxNumLength(this)" class="code-input w-20 h-20 text-2xl text-black text-center font-semibold border border-gray-300 focus:border-primary rounded-sm">
-          <input type="text" name="code3" maxlength="1" onkeypress="return isNumeric(event)" oninput="maxNumLength(this)" class="code-input w-20 h-20 text-2xl text-black text-center font-semibold border border-gray-300 focus:border-primary rounded-sm">
-          <input type="text" name="code4" maxlength="1" onkeypress="return isNumeric(event)" oninput="maxNumLength(this)" class="code-input w-20 h-20 text-2xl text-black text-center font-semibold border border-gray-300 focus:border-primary rounded-sm">
+          <input type="text" name="code1" maxlength="1" onkeypress="return isNumeric(event)" oninput="maxNumLength(this)" class="code-input w-20 h-20 text-2xl text-black text-center font-semibold border border-gray-300 focus:border-primary rounded-sm" required>
+          <input type="text" name="code2" maxlength="1" onkeypress="return isNumeric(event)" oninput="maxNumLength(this)" class="code-input w-20 h-20 text-2xl text-black text-center font-semibold border border-gray-300 focus:border-primary rounded-sm" required>
+          <input type="text" name="code3" maxlength="1" onkeypress="return isNumeric(event)" oninput="maxNumLength(this)" class="code-input w-20 h-20 text-2xl text-black text-center font-semibold border border-gray-300 focus:border-primary rounded-sm" required>
+          <input type="text" name="code4" maxlength="1" onkeypress="return isNumeric(event)" oninput="maxNumLength(this)" class="code-input w-20 h-20 text-2xl text-black text-center font-semibold border border-gray-300 focus:border-primary rounded-sm" required>
         </div>
         <button type="button" id="verifyCode" class="block w-48 h-12 text-white font-medium bg-primary rounded-sm px-4 mx-auto mb-16">Verify Code</button>
       </form>

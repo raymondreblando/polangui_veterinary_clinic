@@ -35,7 +35,7 @@ include('Partials/top_bar.php');
             <th>Purpose</th>
             <th>Date</th>
             <th>Status</th>
-            <th>Action</th>
+            <th class="text-center">Action</th>
           </thead>
           <tbody>
             <?php 
@@ -51,9 +51,12 @@ include('Partials/top_bar.php');
                         <td>
                               <span class="status <?= strtolower($row->a_status) ?>"><?= $row->a_status ?></span>
                         </td>
-                        <td>
-                            <button type="button" data-id="<?= $row->a_id ?>" class="cancel-appointment decline-btn text-rose-500 font-semibold bg-rose-50 py-[3px] px-2 border border-rose-500 rounded-sm">Cancel Appointment</button>
-                            
+                        <td class="text-center">
+                            <?php if($row->a_status === 'Declined'): ?>
+                              *****
+                            <?php else: ?>
+                              <button type="button" data-id="<?= $row->a_id ?>" class="cancel-appointment decline-btn text-rose-500 font-semibold bg-rose-50 py-[3px] px-2 border border-rose-500 rounded-sm">Cancel Appointment</button>
+                            <?php endif ?>
                         </td>
                   </tr>
                   <?php endforeach ?>
