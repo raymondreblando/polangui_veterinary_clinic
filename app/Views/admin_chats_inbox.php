@@ -19,7 +19,7 @@
                               $getUserInfo = $database->fetch();
                         }  
       ?>            
-                  <div data-id="<?= $getUserInfo->user_id ?>" class="inbox-chat-preview chat-message <?= $checkSeenStatus->c_seen ?>">
+                  <div data-id="<?= $getUserInfo->user_id ?>" class="mb-1 inbox-chat-preview chat-message <?= $checkSeenStatus->c_seen ?>">
                         <div class="relative shrink-0 bg-blue-400 rounded-full">
                               <img src="<?= SYSTEM_URL.'/uploads/profiles/'.$getUserInfo->user_photo ?>" alt="profile" class="w-10 h-10 object-cover rounded-full">
                               <?php 

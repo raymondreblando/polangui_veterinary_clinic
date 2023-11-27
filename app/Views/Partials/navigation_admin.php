@@ -35,7 +35,7 @@
           </a>
         </li>
         <li>
-          <a href="<?php echo SYSTEM_URL.'/00000/admin-chats' ?>" class="group aside-link <?php echo $tabActive == 'Chats' ? 'active' : '' ?>">
+          <a href="#" onclick="loadChatURL('00000')" class=" group aside-link <?php echo $tabActive == 'Chats' ? 'active' : '' ?>">
             <img src="<?php echo SYSTEM_URL.'/public/icons/message-inactive.svg' ?>" alt="message" class="group-[.active]:hidden w-5 h-5">
             <img src="<?php echo SYSTEM_URL.'/public/icons/message-active.svg' ?>" alt="message" class="hidden group-[.active]:block w-5 h-5">
             Chats

@@ -28,7 +28,9 @@ include('Partials/top_bar.php');
           </div>
         </div>
 
-      <div id="messages-preview"></div>
+        <div id="chat-container" class="custom-scroll h-[calc(100vh-300px)] max-h-[calc(100vh-300px)] overflow-y-auto sm:px-8">
+          <div id="messages-preview"></div>
+        </div>
 
       <form id="form_chats" class="flex items-center gap-2 border border-gray-100 mt-auto px-4">
             <textarea id="c_message" name="c_message" class="w-full resize-none h-16 text-xs text-gray-500 font-medium placeholder:text-gray-500 py-4" cols="30" rows="10" placeholder="Type your message."></textarea>
@@ -40,6 +42,6 @@ include('Partials/top_bar.php');
     </div>
 <?php include('Partials/footer.php'); ?>
 <script>
-$(document).ready(function () {loadChatsPreview(true);autoRefreshChatsCustomer();});
+$(document).ready(function () {loadChatsPreview();autoRefreshChatsCustomer();});
 $(document).on('keypress', function (e) {if (e.which === 13) {sendChatMessage();}});
 </script>

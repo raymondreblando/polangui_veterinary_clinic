@@ -1,5 +1,6 @@
 const SYSTEM_URL =
       window.location.protocol + '//' + window.location.host + '/projects/pvc';
+
 $(document).ready(function () {
       $("#searchTable").keyup(function () {
             let $tableRow = $("#table tbody tr");
@@ -21,12 +22,59 @@ function autoRefreshChatsAdmin(){
       intervalId = setInterval(function () {
             loadAdminInbox();
             loadChatsPreview();
-      }, 5000);
+      }, 10000);
 }
 function autoRefreshChatsCustomer(){
       intervalId = setInterval(function () {
             loadChatsPreview();
-      }, 5000);
+      }, 10000);
+}
+function toast({ title = '', message = '', type = 'info', duration = 3000 }) {
+      const main = document.getElementById('toast');
+
+      const existingToasts = main.querySelectorAll('.toast');
+      existingToasts.forEach((existingToast) => {
+          main.removeChild(existingToast);
+      });
+  
+      const toast = document.createElement('div');
+  
+      const autoRemoveId = setTimeout(function () {
+          main.removeChild(toast);
+      }, duration + 1000);
+  
+      toast.onclick = function (e) {
+          if (e.target.closest('.toast__close')) {
+              main.removeChild(toast);
+              clearTimeout(autoRemoveId);
+          }
+      };
+  
+      const icons = {
+          success: 'ri-checkbox-circle-fill',
+          info: 'ri-information-fill',
+          warning: 'ri-error-warning-fill',
+          error: 'ri-close-circle-fill',
+      };
+      const icon = icons[type];
+      const delay = (duration / 1000).toFixed(2);
+  
+      toast.classList.add('toast', `toast--${type}`);
+      toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+  
+      toast.innerHTML = `
+          <div class="toast__icon">
+              <i class="${icon}"></i>
+          </div>
+          <div class="toast__body">
+              <h3 class="toast__title title__${type}">${title}</h3>
+              <p class="toast__msg">${message}</p>
+          </div>
+          <div class="toast__close">
+              <i class="ri-close-circle-line"></i>
+          </div>
+      `;
+      main.appendChild(toast);
 }
 function showNotification(msg, type, duration) {
       toast({
@@ -149,6 +197,68 @@ $(document).on('click', '#changePassword', function () {
             showNotification('Please fill up the required field','error',3000);
       }
 });
+function scrollToBottom() {
+      var scrollableDiv = $("#chat-container");
+      var currentScrollPosition = scrollableDiv.scrollTop();
+      var totalHeight = scrollableDiv.prop("scrollHeight");
+      var containerHeight = scrollableDiv.height();
+
+      if (currentScrollPosition < totalHeight - containerHeight) {
+            scrollableDiv.animate({
+                  scrollTop: totalHeight - containerHeight
+            }, 500);
+      }
+}
+function loadChatsPreview(){
+      let identifier = $('#URLIdentifier').val();
+      $.ajax({
+            url: SYSTEM_URL + '/chats-preview',
+            type: 'GET',
+            data: 'identifier=' + identifier,
+            success: function (data) {
+                  $('#messages-preview').html(data);
+                  scrollToBottom();
+            }
+      });
+}
+function loadAdminInbox(){
+      $.ajax({
+            url: SYSTEM_URL + '/admin-chat-inbox',
+            type: 'GET',
+            success: function (data) {
+                $('#messages-inbox').html(data);
+            }
+      });
+}
+function sendChatMessage(){
+      let formData = new FormData($('#form_chats').get(0));
+      $.ajax({
+            type: 'POST',
+            url: SYSTEM_URL + '/process_chat_send',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function () {
+                  $('#c_message').val('');
+                  loadChatsPreview();
+            }
+      });
+}
+$(document).on('click', '#sendMessage', function () {
+      sendChatMessage();
+});
+function loadChatURL(urlIdentifier){
+      let deviceInfo = 'Desktop';
+      if(innerWidth < 992){
+            deviceInfo = 'Mobile';
+      }
+      window.location.href = SYSTEM_URL + '/' + deviceInfo + '/' + urlIdentifier + '/admin-chats';
+}
+$(document).on('click', '.inbox-chat-preview', function () {
+      let urlIdentifier = $(this).data('id');
+      loadChatURL(urlIdentifier);
+});
 $(document).on('click', '#appoinmentCreate', function () {
       if (validateForm('form_appointment')) {
             transferData('form_appointment', SYSTEM_URL + '/process_appointment_create');
@@ -208,55 +318,4 @@ $(document).on('click', '#saveMedical', function () {
       } else {
             showNotification('Please fill up the required field','error',3000);
       }
-});
-function loadChatsPreview(animate = false){
-      let identifier = $('#URLIdentifier').val();
-      $.ajax({
-            url: SYSTEM_URL + '/chats-preview',
-            type: 'GET',
-            data: 'identifier=' + identifier,
-            success: function (data) {
-                $('#messages-preview').html(data);
-                if(animate){
-                        $('#chat-container').animate({
-                              scrollTop: $('#chat-container')[0].scrollHeight
-                        }, 500);
-                }else{
-                      $('#chat-container').scrollTop($('#chat-container')[0].scrollHeight);
-                }
-            }
-      });
-}
-function loadAdminInbox(){
-      $.ajax({
-            url: SYSTEM_URL + '/admin-chat-inbox',
-            type: 'GET',
-            success: function (data) {
-                $('#messages-inbox').html(data);
-            }
-      });
-}
-function sendChatMessage(){
-      let formData = new FormData($('#form_chats').get(0));
-      $.ajax({
-            type: 'POST',
-            url: SYSTEM_URL + '/process_chat_send',
-            data: formData,
-            dataType: 'json',
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                  showNotification(response.responseMsg, response.responseType, response.responseDuration);
-                  $('#c_message').val('');
-                  loadChatsPreview();
-            }
-      });
-}
-$(document).on('click', '#sendMessage', function () {
-      sendChatMessage();
-});
-$(document).on('click', '.inbox-chat-preview', function () {
-      let urlIdentifier = $(this).data('id');
-      window.location.href = SYSTEM_URL + '/' + urlIdentifier + '/admin-chats';
 });

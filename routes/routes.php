@@ -63,8 +63,8 @@ Flight::route('/@id/admin-medical', function($id){
 Flight::route('/@id/admin-medical-create', function($id){
     Flight::render('admin_medical_create.php', array('id' => $id));
 });
-Flight::route('/@id/admin-chats', function($id){
-    Flight::render('admin_chats.php', array('id' => $id));
+Flight::route('/@device/@id/admin-chats', function($device, $id){
+    Flight::render('admin_chats.php', array('device' => $device,'id' => $id));
 });
 Flight::route('/admin-chat-inbox', function(){
     Flight::render('admin_chats_inbox.php');

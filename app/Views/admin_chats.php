@@ -36,7 +36,7 @@ include('Partials/top_bar.php');
         </div>
 
         <?php if($checkSelectedInbox === 'Meron'): ?>
-            <div class="chat-box">
+            <div class="chat-box <?php echo $device == 'Mobile' ? 'show' : '' ?>">
               <input type="hidden" value="<?php echo $id; ?>" name="URLIdentifier" id="URLIdentifier" hidden>
               <div class="flex items-center gap-4 mb-4  border-b border-b-gray-100 pb-2">
                 <button type="button" class="close-chat-box block lg:hidden text-black"><i class="ri-arrow-left-line"></i></button>
@@ -57,7 +57,9 @@ include('Partials/top_bar.php');
                 </div>
               </div>
 
-              <div id="messages-preview"></div>
+              <div id="chat-container" class="custom-scroll h-[calc(100vh-300px)] max-h-[calc(100vh-300px)] overflow-y-auto sm:px-8">
+                <div id="messages-preview"></div>
+              </div>
 
               <form id="form_chats" class="flex items-center gap-2 border border-gray-100 mt-auto px-4">
                   <input type="hidden" value="<?php echo $id ?>" name="c_receipient" hidden>
@@ -68,9 +70,9 @@ include('Partials/top_bar.php');
               </form>
             </div>
         <?php else: ?>
-          <div class="chat-box">
-            <img src="<?php echo SYSTEM_URL.'/public/images/icon_no_convo.svg' ?>" alt="No Conversation" class="">
-            <p class="text-center">Conversation will be shown here.</p>
+          <div class="chat-box min-h-[calc(100vh-200px)] flex flex-col items-center justify-center">
+            <img src="<?php echo SYSTEM_URL.'/public/images/icon_no_convo.svg' ?>" alt="No Conversation" class="w-56 h-56 object-contain mb-2">
+            <p class="text-black text-center font-medium">Conversation will be shown here.</p>
           </div>
         <?php endif ?>
       </div>
@@ -78,6 +80,6 @@ include('Partials/top_bar.php');
   </main>
 <?php include('Partials/footer.php') ?>
 <script>
-$(document).ready(function () {loadAdminInbox();loadChatsPreview(true);autoRefreshChatsAdmin();});
+$(document).ready(function () {loadAdminInbox();loadChatsPreview();autoRefreshChatsAdmin();});
 $(document).on('keypress', function (e) {if (e.which === 13) {sendChatMessage();}});
 </script>

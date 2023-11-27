@@ -114,13 +114,6 @@ addEventListener('.file-input', 'change', (e) => {
   const filename = name.length < 45 ? name : `${name.substring(0, fileDatas[0])}...${fileDatas[1]}`;
   selectedTxt.textContent = filename;
 })
-
-addEventListener('.chat-message', 'click', () => {
-  if (innerWidth < 992) {
-    dynamicStyle('.chat-box', 'show')
-  }
-})
-
 addEventListener('.close-chat-box', 'click', () => {
   dynamicStyle('.chat-box', 'show', 'remove')
 })

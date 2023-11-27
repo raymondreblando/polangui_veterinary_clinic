@@ -60,7 +60,7 @@ include('Partials/top_bar.php');
                         </tr>
                   <?php endforeach ?>
             <?php else: ?>
-                  <td colspan="6" class="text-center">No record found.</td>
+                  <td colspan="7" class="text-center">No record found.</td>
             <?php endif ?>
           </tbody>
         </table>

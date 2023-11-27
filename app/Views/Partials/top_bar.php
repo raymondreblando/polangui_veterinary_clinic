@@ -56,8 +56,10 @@ $notificationCountSeen = $database->rowCount();
                 </div>
               <?php endforeach ?>
             <?php else: ?>
-                <img src="<?php echo SYSTEM_URL.'/public/images/icon_no_convo.svg' ?>" alt="No Conversation" class="">
-                <p>No notification found.</p>
+              <div class="flex flex-col items-center justify-center py-4">
+                <img src="<?php echo SYSTEM_URL.'/public/icons/notification.svg' ?>" alt="No notifications" class="w-6 h-6 mx-auto">
+                <p class="text-xs text-slate-500 font-medium text-center">No notification found.</p>
+              </div>
             <?php endif ?>
         </div>
       </div>

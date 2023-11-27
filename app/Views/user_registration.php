@@ -11,13 +11,13 @@ include_once('Partials/header.php');
     <img src="<?php echo SYSTEM_URL.'/public/images/login-image.jpg' ?>" alt="Registration Cover" class="w-full h-screen object-cover">
     <div class="absolute inset-0 bg-black/40 min-h-screen"></div>
 
-    <div class="hide-scrollbar absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[min(1100px,90%)] h-full flex flex-col md:flex-row items-start md:items-center gap-16 py-12 overflow-y-auto">
+    <div class="hide-scrollbar absolute top-0 md:top-1/2 left-1/2 -translate-y-0 md:-translate-y-1/2 -translate-x-1/2 w-full h-full flex flex-col md:flex-row items-start md:items-center gap-16 px-8 md:px-16 lg:px-24 xl:px-48 pt-14 pb-12 overflow-y-auto">
       <div class="flex-1 flex flex-col justify-center">
         <h1 class="text-3xl text-white font-semibold">Polangui Veterinary Clinic</h1>
         <p class="text-gray-300 font-medium">Pawsitively Dedicated Care: Where Your Pet's Health Comes First.</p>
       </div>
 
-      <div class="flex-1 flex flex-col items-center md:mt-16">
+      <div class="flex-1 w-full flex flex-col items-center md:mt-48">
         <form id="form_registration" autocomplete="off" class="w-full bg-white p-12">
           <input type="hidden" name="r_identifier" hidden>
           <h3 class="text-3xl text-black font-bold">Create Account</h3>

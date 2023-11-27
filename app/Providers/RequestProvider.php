@@ -558,7 +558,6 @@ class RequestProvider {
                   SystemFunctions::notification('Please provide your message.', 'error', 3000, 'no', '');
             }else{
                   $this->database->DBQuery("INSERT INTO `chats` (`c_id`,`c_from`,`c_to`,`c_msg`,`c_date_time`) VALUES (?,?,?,?,?)", [$this->generateUuid(), $c_from, $c_to, $c_message, date("Y-m-d H:i:s")]);
-                  SystemFunctions::notification('Message successfully sent.', 'success', 3000, 'no', '');
             }
       }
 }

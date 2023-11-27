@@ -50,22 +50,22 @@ class SystemFunctions
         $timeAgo = time() - strtotime($timestamp);
     
         if ($timeAgo < 60) {
-            return $timeAgo . "sec ago";
+            return $timeAgo . " sec";
         } elseif ($timeAgo < 3600) {
             $minutes = floor($timeAgo / 60);
-            return $minutes . "min ago";
+            return $minutes . " min ago";
         } elseif ($timeAgo < 86400) {
             $hours = floor($timeAgo / 3600);
-            return $hours . "hr ago";
+            return $hours . " hr ago";
         } elseif ($timeAgo < 2592000) {
             $days = floor($timeAgo / 86400);
-            return $days . "days ago";
+            return $days . " days ago";
         } elseif ($timeAgo < 31536000) {
             $months = floor($timeAgo / 2592000);
-            return $months . "months ago";
+            return $months . " months ago";
         } else {
             $years = floor($timeAgo / 31536000);
-            return $years . "years ago";
+            return $years . " years ago";
         }
     }    
 } 
