@@ -30,20 +30,29 @@ include('Partials/top_bar.php');
       <div class="overflow-x-auto">
         <table id="table" class="w-full text-left border-collapse whitespace-nowrap">
           <thead>
+            <th>No.</th>
             <th>ID</th>
             <th>Pet</th>
             <th>Purpose</th>
             <th>Date</th>
             <th>Status</th>
+            <th class="text-center">Remarks</th>
             <th class="text-center">Action</th>
           </thead>
           <tbody>
             <?php 
-                  $database->DbQuery('SELECT * FROM `appointment` LEFT JOIN `users` ON appointment.a_added_by=users.user_id LEFT JOIN `pets` ON appointment.pet_id=pets.pet_id WHERE appointment.a_added_by = ? ORDER BY appointment.a_no DESC', [$_SESSION['uid']]);
+                  $num = 1;
+                  if((strlen($id) > 20)){
+                    $database->DbQuery('SELECT * FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id=pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id WHERE appointment.a_id = ? AND pets.pet_owner = ? ORDER BY appointment.a_no DESC', [$id, $_SESSION['uid']]);
+                  }else{
+                    $database->DbQuery('SELECT * FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id=pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id WHERE pets.pet_owner = ? ORDER BY appointment.a_no DESC', [$_SESSION['uid']]);
+                  }
+                  
                   if($database->rowCount() > 0):
                         foreach($database->fetchAll() as $row):
             ?>
                   <tr>
+                        <td><?= $num++ ?></td>
                         <td><?= $row->user_code ?></td>
                         <td><?= $row->pet_name ?></td>
                         <td><?= $row->a_purpose ?></td>
@@ -51,9 +60,10 @@ include('Partials/top_bar.php');
                         <td>
                               <span class="status <?= strtolower($row->a_status) ?>"><?= $row->a_status ?></span>
                         </td>
+                        <td class="text-center"><?= $row->a_remarks ?></td>
                         <td class="text-center">
                             <?php if($row->a_status === 'Declined'): ?>
-                              *****
+                              ***
                             <?php else: ?>
                               <button type="button" data-id="<?= $row->a_id ?>" class="cancel-appointment decline-btn text-rose-500 font-semibold bg-rose-50 py-[3px] px-2 border border-rose-500 rounded-sm">Cancel Appointment</button>
                             <?php endif ?>
@@ -61,7 +71,7 @@ include('Partials/top_bar.php');
                   </tr>
                   <?php endforeach ?>
             <?php else: ?>
-                  <td colspan="6" class="text-center">No record found.</td>
+                  <td colspan="8" class="text-center">No record found.</td>
             <?php endif ?>
           </tbody>
         </table>

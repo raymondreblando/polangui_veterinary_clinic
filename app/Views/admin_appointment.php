@@ -30,21 +30,30 @@ include('Partials/top_bar.php');
       <div class="overflow-x-auto">
         <table id="table" class="w-full text-left border-collapse whitespace-nowrap">
           <thead>
+            <th>No</th>
             <th>ID</th>
             <th>Pet</th>
             <th>Owner</th>
             <th>Date</th>
             <th>Purpose</th>
             <th>Status</th>
+            <th class="text-center">Remarks</th>
             <th>Action</th>
           </thead>
           <tbody>
             <?php 
-                  $database->DbQuery('SELECT * FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id=pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id ORDER BY appointment.a_no DESC');
+                  $num = 1;
+                  if(strlen($id) > 20){
+                    $database->DbQuery('SELECT * FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id=pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id WHERE appointment.a_id = ? ORDER BY appointment.a_no DESC', [$id]);
+                  }else{
+                    $database->DbQuery('SELECT * FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id=pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id ORDER BY appointment.a_no DESC');
+                  }
+                  
                   if($database->rowCount() > 0):
                         foreach($database->fetchAll() as $row):
             ?>
                         <tr>
+                        <td><?= $num++ ?></td>
                         <td><?= $row->user_code ?></td>
                         <td><?= $row->pet_name ?></td>
                         <td><?= $row->fname. ' ' .$row->lname ?></td>
@@ -53,6 +62,7 @@ include('Partials/top_bar.php');
                         <td>
                         <span class="status <?= strtolower($row->a_status) ?>"><?= $row->a_status ?></span>
                         </td>
+                        <td class="text-center"><?= $row->a_remarks ?></td>
                         <td>
                         <button type="button" data-id="<?= $row->a_id ?>" class="accept-appointment accept-btn text-teal-500 font-semibold bg-teal-50 py-[3px] px-2 border border-teal-500 rounded-sm">Accept</button>
                         <button type="button" data-id="<?= $row->a_id ?>" class="decline-appointment decline-btn text-rose-500 font-semibold bg-rose-50 py-[3px] px-2 border border-rose-500 rounded-sm">Decline</button>
@@ -89,8 +99,10 @@ include('Partials/top_bar.php');
         <div class="relative max-w-[300px] bg-white rounded-lg p-8">
           <button type="button" class="close-dialog absolute -top-2 -right-2 w-6 h-6 text-sm border border-gray-200 bg-white rounded-full"><i class="ri-close-fill"></i></button>
           <p class="text-black font-semibold mb-3">Confirm Dialog</p>
-          <p class="text-xs text-gray-500 font-semibold mb-4">Please confirm if you really want to decline this appointment. This action cannot be undone.</p>
-
+          <p class="text-xs text-gray-500 font-semibold mb-4">Please confirm if you really want to decline this appointment and provide a reason. This action cannot be undone.</p>
+          
+          <input type="text" name="decline_reason" class="w-full h-12 text-xs font-medium text-ash-gray placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm mb-4" placeholder="Enter your reason" required>
+          
           <div class="flex gap-3">
             <button type="button" id="declineAdminAppointment" class="text-xs text-white bg-primary py-2 px-4 rounded-sm">Confirm</button>
             <button type="button" class="close-dialog text-xs text-black font-semibold bg-gray-100 py-2 px-4 rounded-sm">Cancel</button>

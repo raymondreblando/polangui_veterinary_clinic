@@ -78,7 +78,7 @@ select{
 }
 
 .notification-dropdown{
-  @apply absolute top-[180%] right-0 w-[260px] bg-white p-6 rounded-md shadow-md invisible opacity-0;
+  @apply absolute top-[180%] right-0 w-[260px] bg-white py-6 rounded-md shadow-md invisible opacity-0;
 }
 
 .notification-dropdown.show{
@@ -106,7 +106,7 @@ select{
 }
 
 .chat-box.show{
-  @apply flex  min-h-[calc(100vh-74px)];
+  @apply flex w-full md:w-[calc(100vw-220px)] lg:w-full min-h-[calc(100dvh-74px)];
 }
 
 th,
@@ -153,4 +153,8 @@ td{
 
 .tick-box.active{
   @apply bg-teal-100 border border-teal-500;
+}
+
+.unread{
+  @apply bg-gray-100;
 }

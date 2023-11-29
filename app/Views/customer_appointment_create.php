@@ -17,12 +17,12 @@ include('Partials/top_bar.php');
    <div class="w-full md:w-[calc(100vw-220px)] min-h-[calc(100vh-72px)] flex flex-col items-center justify-center mt-[72px] ml-0 md:ml-[220px] px-6 py-6">
       <div class="w-full sm:w-auto sm:max-w-[500px] mx-auto">
         <h3 class="text-xl text-black font-bold">Create Appointment</h3>
-        <a href="<?php echo SYSTEM_URL.'/customer-appointment' ?>" class="block text-xs text-blue-600 font-semibold mb-6">Go to appointment list</a>
+        <a href="<?php echo SYSTEM_URL.'/00000/customer-appointment' ?>" class="block text-xs text-blue-600 font-semibold mb-6">Go to appointment list</a>
 
         <form id="form_appointment" autocomplete="off">
           <div class="grid sm:grid-cols-2 gap-4 mb-4">
             <div class="sm:col-span-2">
-              <label for="a_pet" class="block text-sm text-black font-semibold mb-1">Pet</label>
+              <label for="a_pet" class="block text-sm text-black font-semibold mb-1">Pet Name</label>
               <div class="search-select-container group relative flex items-center gap-2 bg-gray-100 rounded-sm px-6">
                 <input type="hidden" name="a_pet" class="pet-input hidden" required>
                 <input type="text" id="searchElement" class="search-select w-full h-12 text-xs font-medium text-ash-gray placeholder:text-ash-gray bg-gray-100" autocomplete="off" placeholder="Search pet name">

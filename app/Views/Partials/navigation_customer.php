@@ -21,7 +21,7 @@
           </a>
         </li>
         <li>
-          <a href="<?php echo SYSTEM_URL.'/customer-appointment' ?>" class="group aside-link <?php echo $tabActive == 'Appointment' ? 'active' : '' ?>">
+          <a href="<?php echo SYSTEM_URL.'/00000/customer-appointment' ?>" class="group aside-link <?php echo $tabActive == 'Appointment' ? 'active' : '' ?>">
             <img src="<?php echo SYSTEM_URL.'/public/icons/calendar-inactive.svg' ?>" alt="calendar" class="group-[.active]:hidden w-5 h-5">
             <img src="<?php echo SYSTEM_URL.'/public/icons/calendar-active.svg' ?>" alt="calendar" class="hidden group-[.active]:block w-5 h-5">
             Appointment
@@ -59,10 +59,10 @@
             <p class="text-xs text-gray-300 font-medium"><?php echo $userInfo->fname. " " .$userInfo->lname ?></p>
             <p class="text-[10px] text-gray-300 font-medium"><?php echo $userInfo->role_name ?></p>
           </div>
-          <a href="javascript:void(0)" title="Logout" class="accept-btn ml-auto">
+          <a href="javascript:void(0)" title="Logout" class="confirm-logout-btn ml-auto">
             <img src="<?php echo SYSTEM_URL.'/public/icons/logout.svg' ?>" alt="logout" class="w-4 h-4">
           </a>
-          <div class="dialog" id="accept-dialog">
+          <div class="dialog" id="confirm-logout-dialog">
               <div class="relative max-w-[300px] bg-white rounded-lg p-8">
                 <button type="button" class="close-dialog absolute -top-2 -right-2 w-6 h-6 text-sm border border-gray-200 bg-white rounded-full"><i class="ri-close-fill"></i></button>
                 <p class="text-black font-semibold mb-3">Confirm Dialog</p>

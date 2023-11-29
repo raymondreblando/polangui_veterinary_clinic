@@ -48,7 +48,9 @@
                   </div>
             <?php endforeach ?>
       <?php else: ?>
-            <img src="<?php echo SYSTEM_URL.'/public/images/icon_no_convo.svg' ?>" alt="No Conversation" class="">
-            <p>Empty Inbox Message.</p>
+            <div class="border border-gray-200 py-8">
+                  <img src="<?php echo SYSTEM_URL.'/public/icons/inbox.svg' ?>" alt="No Conversation" class="w-12 h-12 mx-auto">
+                  <p class="text-sm text-gray-500 text-center font-medium">Empty Inbox Message.</p>
+            </div>
       <?php endif ?>
 </div>

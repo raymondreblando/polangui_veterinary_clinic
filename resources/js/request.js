@@ -298,7 +298,11 @@ $(document).on('click', '#acceptAdminAppointment', function () {
       transferData('form_modal_1', SYSTEM_URL + '/process_appointment_accept');
 });
 $(document).on('click', '#declineAdminAppointment', function () {
-      transferData('form_modal_2', SYSTEM_URL + '/process_appointment_decline');
+      if (validateForm('form_modal_2')) {
+            transferData('form_modal_2', SYSTEM_URL + '/process_appointment_decline');
+      } else {
+            showNotification('Please provide your reason','error',3000);
+      }
 });
 $(document).on('click', '#saveInventory', function () {
       if (validateForm('form_inventory')) {

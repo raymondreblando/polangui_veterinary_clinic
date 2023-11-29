@@ -98,6 +98,10 @@ addEventListener('.decline-btn', 'click', () => {
   dynamicStyle('#decline-dialog', 'show');
 })
 
+addEventListener('.confirm-logout-btn', 'click', () => {
+  dynamicStyle('#confirm-logout-dialog', 'show');
+})
+
 addEventListener('.close-dialog', 'click', () => {
   dynamicStyle('.dialog', 'show', 'remove');
 })

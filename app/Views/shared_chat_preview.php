@@ -44,8 +44,8 @@ $identifier = SystemFunctions::validate($_GET['identifier']);
             <?php endif ?>
       <?php endforeach ?>
 <?php else: ?>
-      <div class="flex justify-center items-center flex-col">
-                  <img src="<?php echo SYSTEM_URL.'/public/images/icon_no_convo.svg' ?>" alt="No Conversation" class="w-56 h-56 object-contain mb-2">
-            <p>No message found.</p>
+      <div class="flex justify-center items-center flex-col py-8">
+            <img src="<?php echo SYSTEM_URL.'/public/icons/message-inactive.svg' ?>" alt="No Conversation" class="w-24 h-24 object-contain mb-2">
+            <p class="text-sm text-gray-500 text-center font-medium">No message found.</p>
       </div>
 <?php endif ?>

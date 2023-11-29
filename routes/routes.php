@@ -33,8 +33,8 @@ Flight::route('/admin-customer', function(){
 Flight::route('/admin-customer-create', function(){
     Flight::render('admin_customer_create.php');
 });
-Flight::route('/admin-appointment', function(){
-    Flight::render('admin_appointment.php');
+Flight::route('/@id/admin-appointment', function($id){
+    Flight::render('admin_appointment.php', array('id' => $id));
 });
 Flight::route('/admin-appointment-create', function(){
     Flight::render('admin_appointment_create.php');
@@ -76,8 +76,8 @@ Flight::route('/admin-settings', function(){
 Flight::route('/customer-homepage', function(){
     Flight::render('customer_dashboard.php');
 });
-Flight::route('/customer-appointment', function(){
-    Flight::render('customer_appointment.php');
+Flight::route('/@id/customer-appointment', function($id){
+    Flight::render('customer_appointment.php', array('id' => $id));
 });
 Flight::route('/create-appointment', function(){
     Flight::render('customer_appointment_create.php');

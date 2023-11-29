@@ -39,15 +39,38 @@ $notificationCountSeen = $database->rowCount();
         <img src="<?php echo SYSTEM_URL.'/public/icons/notification.svg' ?>" alt="notification" class="w-5 h-5">
 
         <div class="notification-dropdown">
-          <div class="border-b border-b-gray-100 pb-2">
+          <div class="border-b border-b-gray-100 pb-2 px-6">
             <p class="text-sm text-black font-semibold">Notifications</p>
           </div>
           <?php
             if($notificationCount > 0):
               foreach($notifications as $row):
+                $targetLink = '';
+                if($_SESSION['role'] === '1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9'){
+                  switch ($row->n_type) {
+                    case 'Appointment':
+                      $targetLink = SYSTEM_URL.'/'.$row->n_target.'/admin-appointment';
+                      break;
+                    case 'Message':
+                        $targetLink = SYSTEM_URL.'/Desktop/'.$row->n_target.'/admin-chats';
+                      break;
+                  }
+                }else{
+                  switch ($row->n_type) {
+                    case 'Appointment':
+                      $targetLink = SYSTEM_URL.'/'.$row->n_target.'/customer-appointment';
+                      break;
+                    case 'Message':
+                        $targetLink = SYSTEM_URL.'/chats';
+                      break;
+                    case 'Medical':
+                        $targetLink = SYSTEM_URL.'/'.$row->n_target.'/view-medical-records';
+                      break;
+                  }
+                }
           ?>
-                <div class="custom-scroll max-h-[257px] overflow-y-auto">
-                  <div class="py-2">
+                <div onclick="window.location.href='<?= $targetLink ?>'" class="custom-scroll max-h-[257px] overflow-y-auto">
+                  <div class="py-2 px-6 <?php echo $row->n_seen == 'no' ? 'unread' : '' ?>">
                     <p class="text-xs text-black font-medium"><?= $row->n_msg ?></p>
                     <div class="flex justify-between gap-2 mt-1">
                       <p class="text-[8px] text-gray-500 font-medium"><?= SystemFunctions::formatDateTime($row->n_date_time, 'M d, Y h:i A') ?></p>

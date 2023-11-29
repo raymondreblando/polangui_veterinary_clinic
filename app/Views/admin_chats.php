@@ -71,8 +71,8 @@ include('Partials/top_bar.php');
             </div>
         <?php else: ?>
           <div class="chat-box min-h-[calc(100vh-200px)] flex flex-col items-center justify-center">
-            <img src="<?php echo SYSTEM_URL.'/public/images/icon_no_convo.svg' ?>" alt="No Conversation" class="w-56 h-56 object-contain mb-2">
-            <p class="text-black text-center font-medium">Conversation will be shown here.</p>
+            <img src="<?php echo SYSTEM_URL.'/public/icons/message-inactive.svg' ?>" alt="No Conversation" class="w-36 h-36 object-contain mb-2">
+            <p class="text-sm text-gray-500 text-center font-medium">Conversation will be shown here.</p>
           </div>
         <?php endif ?>
       </div>

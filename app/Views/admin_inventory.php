@@ -28,8 +28,10 @@ include('Partials/top_bar.php');
 
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
         <?php
+            $noInventory = 'No Inventory';
             $database->DbQuery('SELECT * FROM `inventory` ORDER BY `inv_no` DESC');
             if($database->rowCount() > 0):
+              $noInventory = 'With Inventory';
               foreach($database->fetchAll() as $row):
         ?>
                 <div class="search-area">
@@ -58,6 +60,12 @@ include('Partials/top_bar.php');
             <?php endforeach ?>
         <?php endif ?>
       </div>
+      <?php  if($noInventory = 'No Inventory'): ?>
+            <div class="flex justify-center items-center flex-col py-8">
+                  <img src="<?php echo SYSTEM_URL.'/public/images/no_inventory.svg' ?>" alt="No Conversation" class="w-24 h-24 object-contain mb-2">
+                   <p class="text-center text-sm">No pets found.</p>
+            </div>
+      <?php endif ?>
     </div>
 
     <div class="dialog" id="accept-dialog">

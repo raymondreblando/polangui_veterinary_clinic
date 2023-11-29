@@ -27,7 +27,7 @@ include('Partials/top_bar.php');
             <i class="ri-add-fill text-sm"></i>
             Add
           </a>
-          <a href="<?php echo SYSTEM_URL.'/admin-appointment' ?>" class="flex items-center gap-2 text-xs text-white font-medium bg-primary py-2 px-4 rounded-sm">
+          <a href="<?php echo SYSTEM_URL.'/00000/admin-appointment' ?>" class="flex items-center gap-2 text-xs text-white font-medium bg-primary py-2 px-4 rounded-sm">
             <i class="ri-share-circle-fill text-xs"></i>
             Open
           </a>

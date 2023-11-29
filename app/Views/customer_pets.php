@@ -81,11 +81,12 @@ include('Partials/top_bar.php');
                   <?php endforeach ?>
             <?php endif ?>
       </div>
-      <?php 
-            if($noPets === 'No Pets'){
-                  echo '<p class="text-center text-sm">No pets found.</p>';
-            }
-      ?>
+      <?php  if($noPets === 'No Pets'): ?>
+            <div class="flex justify-center items-center flex-col py-8">
+                  <img src="<?php echo SYSTEM_URL.'/public/images/no_pets.svg' ?>" alt="No Conversation" class="w-24 h-24 object-contain mb-2">
+                   <p class="text-center text-sm">No pets found.</p>
+            </div>
+      <?php endif ?>
     </div>
     </main>
 <?php include('Partials/footer.php'); ?>

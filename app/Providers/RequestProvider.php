@@ -378,6 +378,7 @@ class RequestProvider {
     }
     public function processAppointmentCreate() {
             session_start();
+            $a_id = $this->generateUuid();
             $postRequestData = Flight::request()->data;
             $a_pet = SystemFunctions::validate($postRequestData['a_pet']);
             $a_date_time = SystemFunctions::validate($postRequestData['a_date_time']);
@@ -409,7 +410,7 @@ class RequestProvider {
                   }
 
                   if($isThereConflict === 'no'){
-                        $this->database->DBQuery("INSERT INTO `appointment` (`a_id`,`pet_id`,`a_date_time`,`a_purpose`,`a_date_added`,`a_added_by`,`a_msg`) VALUES (?,?,?,?,?,?,?)", [$this->generateUuid(), $a_pet, $a_date_time, $a_purpose, date("Y-m-d H:i:s"), $_SESSION['uid'], $a_message]);
+                        $this->database->DBQuery("INSERT INTO `appointment` (`a_id`,`pet_id`,`a_date_time`,`a_purpose`,`a_date_added`,`a_added_by`,`a_msg`) VALUES (?,?,?,?,?,?,?)", [$a_id, $a_pet, $a_date_time, $a_purpose, date("Y-m-d H:i:s"), $_SESSION['uid'], $a_message]);
                         $this->database->DBQuery("SELECT users.user_id,users.fname,users.lname,pets.pet_id, pets.pet_name, pets.pet_owner, users.email FROM `pets` LEFT JOIN `users` ON users.user_id=pets.pet_owner WHERE pets.pet_id = ?", [$a_pet]);
                         $getOwner = $this->database->fetch();
 
@@ -421,9 +422,9 @@ class RequestProvider {
                                           $a_message.'<br><br>Pet Name: '.$getOwner->pet_name.'<br>Appointment Date: '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A').'<br>Appointment Purpose: '.$a_purpose
                                     );
                               }
-                              $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`) VALUES (?,?,?,?)", [$this->generateUuid(), $getOwner->user_id, 'We created a new appointment for '.$getOwner->pet_name.' on '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s")]);
+                              $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`,`n_type`,`n_target`) VALUES (?,?,?,?,?,?)", [$this->generateUuid(), $getOwner->user_id, 'We created a new appointment for '.$getOwner->pet_name.' on '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s"), 'Appointment', $a_id]);
                         }else{
-                              $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`) VALUES (?,?,?,?)", [$this->generateUuid(), '1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9', $getOwner->fname. ' ' .$getOwner->lname. ' schedule a new appointment on '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s")]);
+                              $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`,`n_type`,`n_target`) VALUES (?,?,?,?,?,?)", [$this->generateUuid(), '1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9', $getOwner->fname. ' ' .$getOwner->lname. ' schedule a new appointment on '.SystemFunctions::formatDateTime($a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s"), 'Appointment', $a_id]);
                         }
                         SystemFunctions::notification("Appointment Successfully Save", 'success', 1500, 'yes', '');
                   }
@@ -435,9 +436,9 @@ class RequestProvider {
             $identifier = SystemFunctions::validate($postRequestData['p_identifier']);
 
             $this->database->DBQuery("UPDATE `appointment` SET `a_status` = 'Declined' WHERE `a_id` = ?", [$identifier]);
-            $this->database->DBQuery("SELECT users.fname,users.lname,appointment.a_date_time FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id=pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id WHERE appointment.a_id = ?", [$identifier]);
+            $this->database->DBQuery("SELECT appointment.a_id,users.fname,users.lname,appointment.a_date_time FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id=pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id WHERE appointment.a_id = ?", [$identifier]);
             $getCurrentAppointmentData = $this->database->fetch();
-            $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`) VALUES (?,?,?,?)", [$this->generateUuid(), '1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9', $getCurrentAppointmentData->fname. ' ' .$getCurrentAppointmentData->lname.' cancelled his appointment on '.SystemFunctions::formatDateTime($getCurrentAppointmentData->a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s")]);
+            $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`,`n_type`,`n_target`) VALUES (?,?,?,?,?,?)", [$this->generateUuid(), '1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9', $getCurrentAppointmentData->fname. ' ' .$getCurrentAppointmentData->lname.' cancelled his appointment on '.SystemFunctions::formatDateTime($getCurrentAppointmentData->a_date_time, 'M d, Y h:i A'), date("Y-m-d H:i:s"), 'Appointment', $getCurrentAppointmentData->a_id]);
             SystemFunctions::notification("Appointment Successfully Cancel", 'success', 1500, 'yes', '');
     }
     public function processAppointmentAccept(){
@@ -445,29 +446,30 @@ class RequestProvider {
             $identifier = SystemFunctions::validate($postRequestData['accept_identifier']);
 
             $this->database->DBQuery("UPDATE `appointment` SET `a_status` = 'Approved' WHERE `a_id` = ?", [$identifier]);
-            $this->database->DBQuery("SELECT users.user_id,appointment.a_id,appointment.a_date_time,appointment.a_purpose,pets.pet_name,users.email FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id = pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id WHERE appointment.a_id = ?", [$identifier]);
+            $this->database->DBQuery("SELECT appointment.a_id,users.user_id,appointment.a_id,appointment.a_date_time,appointment.a_purpose,pets.pet_name,users.email FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id = pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id WHERE appointment.a_id = ?", [$identifier]);
             $getOwner = $this->database->fetch();
-            $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`) VALUES (?,?,?,?)", [$this->generateUuid(), $getOwner->user_id, 'Your appointment on '.SystemFunctions::formatDateTime($getOwner->a_date_time, 'M d, Y h:i A').' has been approved.', date("Y-m-d H:i:s")]);
-            $this->email->sendEmail(
-                  $getOwner->email, 
-                  'Appointment Approved', 
-                  'Hi, Good day, We would like to inform you that your appointment has been approved.<br><br>Appointment Date: '.SystemFunctions::formatDateTime($getOwner->a_date_time, 'M d, Y h:i A').'<br>Appointment Purpose: '.$getOwner->a_purpose.'<br>Pet Name: '.$getOwner->pet_name
-            );
-            SystemFunctions::notification("Appointment Successfully Accepted", 'success', 1500, 'yes', '');
+            $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`,`n_type`,`n_target`) VALUES (?,?,?,?,?,?)", [$this->generateUuid(), $getOwner->user_id, 'Your appointment on '.SystemFunctions::formatDateTime($getOwner->a_date_time, 'M d, Y h:i A').' has been approved.', date("Y-m-d H:i:s"), 'Appointment', $identifier]);
+            // $this->email->sendEmail(
+            //       $getOwner->email, 
+            //       'Appointment Approved', 
+            //       'Hi, Good day, We would like to inform you that your appointment has been approved.<br><br>Appointment Date: '.SystemFunctions::formatDateTime($getOwner->a_date_time, 'M d, Y h:i A').'<br>Appointment Purpose: '.$getOwner->a_purpose.'<br>Pet Name: '.$getOwner->pet_name
+            // );
+            SystemFunctions::notification("Appointment Successfully Approved", 'success', 1500, 'yes', '');
       }
       public function processAppointmentDecline(){
             $postRequestData = Flight::request()->data;
             $identifier = SystemFunctions::validate($postRequestData['decline_identifier']);
+            $decline_reason = SystemFunctions::validate($postRequestData['decline_reason']);
 
-            $this->database->DBQuery("UPDATE `appointment` SET `a_status` = 'Declined' WHERE `a_id` = ?", [$identifier]);
-            $this->database->DBQuery("SELECT users.user_id,appointment.a_id,appointment.a_date_time,appointment.a_purpose,pets.pet_name,users.email FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id = pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id WHERE appointment.a_id = ?", [$identifier]);
+            $this->database->DBQuery("UPDATE `appointment` SET `a_status` = 'Declined', `a_remarks` = ? WHERE `a_id` = ?", [$decline_reason, $identifier]);
+            $this->database->DBQuery("SELECT appointment.a_id,users.user_id,appointment.a_id,appointment.a_date_time,appointment.a_purpose,pets.pet_name,users.email FROM `appointment` LEFT JOIN `pets` ON appointment.pet_id = pets.pet_id LEFT JOIN `users` ON pets.pet_owner=users.user_id WHERE appointment.a_id = ?", [$identifier]);
             $getOwner = $this->database->fetch();
-            $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`) VALUES (?,?,?,?)", [$this->generateUuid(), $getOwner->user_id, 'Your appointment on '.SystemFunctions::formatDateTime($getOwner->a_date_time, 'M d, Y h:i A').' has been decline.', date("Y-m-d H:i:s")]);
-            $this->email->sendEmail(
-                  $getOwner->email, 
-                  'Appointment Decline', 
-                  'Hi, Good day, We would like to inform you that your appointment has been decline.<br><br>Appointment Date: '.SystemFunctions::formatDateTime($getOwner->a_date_time, 'M d, Y h:i A').'<br>Appointment Purpose: '.$getOwner->a_purpose.'<br>Pet Name: '.$getOwner->pet_name
-            );
+            $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`,`n_type`,`n_target`) VALUES (?,?,?,?,?,?)", [$this->generateUuid(), $getOwner->user_id, 'Your scheduled appointment on '.SystemFunctions::formatDateTime($getOwner->a_date_time, 'M d, Y h:i A').' has been declined due to the following reason: '.$decline_reason, date("Y-m-d H:i:s"), 'Appointment', $identifier]);
+            // $this->email->sendEmail(
+            //       $getOwner->email, 
+            //       'Appointment Decline', 
+            //       'Hi, Good day, We would like to inform you that your appointment has been decline.<br><br>Appointment Date: '.SystemFunctions::formatDateTime($getOwner->a_date_time, 'M d, Y h:i A').'<br>Appointment Purpose: '.$getOwner->a_purpose.'<br>Pet Name: '.$getOwner->pet_name
+            // );
             SystemFunctions::notification("Appointment Successfully Decline", 'success', 1500, 'yes', '');
       }
     public function processMedicalCreate(){
@@ -485,6 +487,9 @@ class RequestProvider {
                   SystemFunctions::notification('Please fill up all the required field', 'error', 3000, 'no', '');
             }else{
                   $this->database->DBQuery("INSERT INTO `medical` (`m_id`,`pet_id`,`m_treatment`,`m_period`,`m_test`,`m_result`,`m_medication`,`m_doctor_name`,`m_date_added`,`m_added_by`) VALUES (?,?,?,?,?,?,?,?,?,?)", [$this->generateUuid(), $identifier, $treatment, $period, $lab_test, $test_result, $medication, $doctor, date("Y-m-d H:i:s"), $_SESSION['uid']]);
+                  $this->database->DBQuery("SELECT pets.pet_id, pets.pet_name, users.user_id FROM `pets` LEFT JOIN `users` ON pets.pet_owner = users.user_id WHERE pets.pet_id = ?", [$identifier]);
+                  $petData = $this->database->fetch();
+                  $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`,`n_type`,`n_target`) VALUES (?,?,?,?,?,?)", [$this->generateUuid(), $petData->user_id, 'We added new medical record for '.strtolower($petData->pet_name), date("Y-m-d H:i:s"), 'Medical', $petData->pet_id]);
                   SystemFunctions::notification("Medical record successfully save", 'success', 1500, 'yes', '');
             }
     }
@@ -510,7 +515,7 @@ class RequestProvider {
                         }else{
                               move_uploaded_file($_FILES["i_photo"]["tmp_name"], $uploadDir . $newFilename);
                               $this->database->DBQuery("INSERT INTO `inventory` (`inv_id`,`inv_name`,`inv_brand`,`inv_price`,`inv_stocks`,`inv_status`,`inv_date`,`inv_photo`) VALUES (?,?,?,?,?,?,?,?)", [$this->generateUuid(), $i_name, $i_brand, $i_price, $i_stock, $i_status, date("Y-m-d H:i:s"), $newFilename]);
-                              SystemFunctions::notification("Pet Successfully Save", 'success', 1500, 'yes', '');
+                              SystemFunctions::notification("Inventory Successfully Save", 'success', 1500, 'yes', '');
                         }
                   }else{
                         $this->database->DBQuery("INSERT INTO `inventory` (`inv_id`,`inv_name`,`inv_brand`,`inv_price`,`inv_stocks`,`inv_status`,`inv_date`) VALUES (?,?,?,?,?,?,?)", [$this->generateUuid(), $i_name, $i_brand, $i_price, $i_stock, $i_status, date("Y-m-d H:i:s")]);
@@ -576,6 +581,11 @@ class RequestProvider {
                   SystemFunctions::notification('Please provide your message.', 'error', 3000, 'no', '');
             }else{
                   $this->database->DBQuery("INSERT INTO `chats` (`c_id`,`c_from`,`c_to`,`c_msg`,`c_date_time`) VALUES (?,?,?,?,?)", [$this->generateUuid(), $c_from, $c_to, $c_message, date("Y-m-d H:i:s")]);
+                  if($_SESSION['role'] === '1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9'){
+                        $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`,`n_type`,`n_target`) VALUES (?,?,?,?,?,?)", [$this->generateUuid(), $c_to, 'New message arrived: "'.$c_message.'"', date("Y-m-d H:i:s"), 'Message', $c_to]);
+                  }else{
+                        $this->database->DBQuery("INSERT INTO `notification` (`n_id`,`n_to`,`n_msg`,`n_date_time`,`n_type`,`n_target`) VALUES (?,?,?,?,?,?)", [$this->generateUuid(), $c_to, 'A new message has arrived from '.$_SESSION['fullname'].': "'.$c_message.'"', date("Y-m-d H:i:s"), 'Message', $_SESSION['uid']]);
+                  }
             }
       }
 }
