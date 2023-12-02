@@ -111,6 +111,10 @@ include('Partials/top_bar.php');
               <input type="text" name="p_height" value="<?php echo $petsData->pet_height ?>" class="w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Pet height">
               <p class="hidden text-xs font-semibold text-red-500 mt-2">Height is required</p>
             </div>
+            <div class="sm:col-span-4 sm">
+              <label for="p_remark" class="block text-sm text-black font-semibold mb-1">Remarks (Optional)</label>
+              <input type="text" name="p_remark" class="w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Enter your remarks">
+            </div>
           </div>
           <button type="button" id="updatePets" class="w-max h-12 text-sm text-white font-medium bg-primary px-8 rounded-sm">Update</button>
         </form>

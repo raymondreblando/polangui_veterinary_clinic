@@ -46,16 +46,18 @@ include('Partials/top_bar.php');
                               <a href="<?= SYSTEM_URL.'/'.$row->pet_id.'/admin-pets-update' ?>" class="w-8 h-8 text-center leading-8 bg-teal-100 text-teal-500 rounded-full border border-teal-500 ml-auto" title="Edit Pet Information"><i class="ri-pencil-line"></i></a>
                         </div>
                         
-                        <div class="flex flex-wrap justify-center gap-2">
-                              <a href="<?= SYSTEM_URL.'/'.$row->pet_id.'/admin-medical' ?>" class="flex items-center text-[10px] text-blue-500 font-semibold gap-2 bg-blue-100 py-2 px-3 rounded-sm">
-                              <img src="<?= SYSTEM_URL.'/public/icons/folder.svg' ?>" alt="folder" class="w-4 h-4">
-                              <p>Medical Records</p>
-                              </a>
-                              <a href="<?= SYSTEM_URL.'/'.$row->pet_id.'/admin-medical-create' ?>" class="flex items-center text-[10px] text-blue-500 font-semibold gap-2 bg-blue-100 py-2 px-7 rounded-sm">
-                              <img src="<?= SYSTEM_URL.'/public/icons/add.svg' ?>" alt="folder" class="w-4 h-4">
-                              <p>Add New</p>
-                              </a>
-                        </div>
+                              <div class="flex flex-wrap justify-center gap-2">
+                                    <a href="<?= SYSTEM_URL.'/'.$row->pet_id.'/admin-medical' ?>" class="flex items-center text-[10px] text-blue-500 font-semibold gap-2 bg-blue-100 py-2 px-3 rounded-sm">
+                                    <img src="<?= SYSTEM_URL.'/public/icons/folder.svg' ?>" alt="folder" class="w-4 h-4">
+                                    <p>Medical Records</p>
+                                    </a>
+                                    <a href="<?= SYSTEM_URL.'/'.$row->pet_id.'/admin-medical-create' ?>" class="flex items-center text-[10px] text-blue-500 font-semibold gap-2 bg-blue-100 py-2 px-7 rounded-sm">
+                                    <img src="<?= SYSTEM_URL.'/public/icons/add.svg' ?>" alt="folder" class="w-4 h-4">
+                                    <p>Add New</p>
+                                    </a>
+                              </div>
+
+                              <p class="text-[11px] text-gray-500 font-semibold mt-4">Remarks: <?= $row->remarks ?></p>
                         </div>
                   </div>
             <?php endforeach ?>
@@ -63,7 +65,7 @@ include('Partials/top_bar.php');
       </div>
       <?php  if($noPets === 'No Pets'): ?>
             <div class="flex justify-center items-center flex-col py-8">
-                  <img src="<?php echo SYSTEM_URL.'/public/images/no_pets.svg' ?>" alt="No Conversation" class="w-24 h-24 object-contain mb-2">
+                  <img src="<?php echo SYSTEM_URL.'/public/images/no_pets.svg' ?>" alt="no pet records" class="w-32 h-32 object-contain mb-2">
                    <p class="text-center text-sm">No pets found.</p>
             </div>
       <?php endif ?>

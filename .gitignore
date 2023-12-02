@@ -6,3 +6,4 @@ element.txt
 package-lock.json
 package.json
 tailwind.config.js
+webpack.config.js

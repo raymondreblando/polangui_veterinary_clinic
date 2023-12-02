@@ -76,6 +76,8 @@ include('Partials/top_bar.php');
                                           <p>Medical Records</p>
                                           </a>
                                     </div>
+
+                                    <p class="text-[11px] text-gray-500 font-semibold mt-4">Remarks: <?= $row->remarks ?></p>
                               </div>
                         </div>
                   <?php endforeach ?>
@@ -83,7 +85,7 @@ include('Partials/top_bar.php');
       </div>
       <?php  if($noPets === 'No Pets'): ?>
             <div class="flex justify-center items-center flex-col py-8">
-                  <img src="<?php echo SYSTEM_URL.'/public/images/no_pets.svg' ?>" alt="No Conversation" class="w-24 h-24 object-contain mb-2">
+                  <img src="<?php echo SYSTEM_URL.'/public/images/no_pets.svg' ?>" alt="no pet records" class="w-32 h-32 object-contain mb-2">
                    <p class="text-center text-sm">No pets found.</p>
             </div>
       <?php endif ?>

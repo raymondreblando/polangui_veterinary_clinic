@@ -338,8 +338,10 @@ class RequestProvider {
 
       if($_SESSION['role'] === "1d8ee553-dac1-4fd0-bdb0-01f9aec96ab9"){
             $p_owner = SystemFunctions::validate($postRequestData['p_owner']);
+            $p_remarks = SystemFunctions::validate($postRequestData['p_remark']);
       }else{
             $p_owner = $_SESSION['uid'];
+            $p_remarks = '';
       }
 
       if(empty($p_name) OR empty($p_species) OR empty($p_breed) OR empty($p_gender) OR empty($p_birth) OR empty($p_weight) OR empty($p_height)){
@@ -364,11 +366,11 @@ class RequestProvider {
                               }
 
                               move_uploaded_file($_FILES["p_profile"]["tmp_name"], $uploadDir . $newFilename);
-                              $this->database->DBQuery("UPDATE `pets` SET `pet_name`=?,`pet_photo`=?,`pet_species`=?,`pet_breed`=?,`pet_gender`=?,`pet_birth`=?,`pet_weight`=?,`pet_height`=?,`pet_owner`=? WHERE `pet_id`=?", [$p_name, $newFilename, $p_species, $p_breed, $p_gender, $p_birth, $p_weight, $p_height, $p_owner, $identifier]);
+                              $this->database->DBQuery("UPDATE `pets` SET `pet_name`=?,`pet_photo`=?,`pet_species`=?,`pet_breed`=?,`pet_gender`=?,`pet_birth`=?,`pet_weight`=?,`pet_height`=?,`pet_owner`=?,`remarks`=? WHERE `pet_id`=?", [$p_name, $newFilename, $p_species, $p_breed, $p_gender, $p_birth, $p_weight, $p_height, $p_owner, $p_remarks, $identifier]);
                               SystemFunctions::notification("Pet Successfully Updated", 'success', 1500, 'yes', '');
                         }
                   }else{
-                        $this->database->DBQuery("UPDATE `pets` SET `pet_name`=?,`pet_species`=?,`pet_breed`=?,`pet_gender`=?,`pet_birth`=?,`pet_weight`=?,`pet_height`=?,`pet_owner`=? WHERE `pet_id`=?", [$p_name, $p_species, $p_breed, $p_gender, $p_birth, $p_weight, $p_height, $p_owner, $identifier]);
+                        $this->database->DBQuery("UPDATE `pets` SET `pet_name`=?,`pet_species`=?,`pet_breed`=?,`pet_gender`=?,`pet_birth`=?,`pet_weight`=?,`pet_height`=?,`pet_owner`=?,`remarks`=? WHERE `pet_id`=?", [$p_name, $p_species, $p_breed, $p_gender, $p_birth, $p_weight, $p_height, $p_owner, $p_remarks,$identifier]);
                         SystemFunctions::notification("Pet Successfully Updated", 'success', 1500, 'yes', '');
                   }
             }else{

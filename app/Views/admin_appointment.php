@@ -37,7 +37,7 @@ include('Partials/top_bar.php');
             <th>Date</th>
             <th>Purpose</th>
             <th>Status</th>
-            <th class="text-center">Remarks</th>
+            <th class="text-center">Reason</th>
             <th>Action</th>
           </thead>
           <tbody>
@@ -57,7 +57,7 @@ include('Partials/top_bar.php');
                         <td><?= $row->user_code ?></td>
                         <td><?= $row->pet_name ?></td>
                         <td><?= $row->fname. ' ' .$row->lname ?></td>
-                        <td><?= SystemFunctions::formatDateTime($row->a_date_added, 'M d, Y h:i A') ?></td>
+                        <td><?= SystemFunctions::formatDateTime($row->a_date_time, 'M d, Y h:i A') ?></td>
                         <td><?= $row->a_purpose ?></td>
                         <td>
                         <span class="status <?= strtolower($row->a_status) ?>"><?= $row->a_status ?></span>
@@ -70,7 +70,7 @@ include('Partials/top_bar.php');
                         </tr>
                   <?php endforeach ?>
             <?php else: ?>
-                  <td colspan="7" class="text-center">No record found.</td>
+                  <td colspan="9" class="text-center">No record found.</td>
             <?php endif ?>
           </tbody>
         </table>

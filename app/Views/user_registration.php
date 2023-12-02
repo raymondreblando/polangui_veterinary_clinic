@@ -8,7 +8,7 @@ include_once('Partials/header.php');
 
 ?>
   <main class="min-h-screen">
-    <img src="<?php echo SYSTEM_URL.'/public/images/login-image.jpg' ?>" alt="Registration Cover" class="w-full h-screen object-cover">
+    <img src="<?php echo SYSTEM_URL.'/public/images/login-image.webp' ?>" alt="Registration Cover" class="w-full h-screen object-cover">
     <div class="absolute inset-0 bg-black/40 min-h-screen"></div>
 
     <div class="hide-scrollbar absolute top-0 md:top-1/2 left-1/2 -translate-y-0 md:-translate-y-1/2 -translate-x-1/2 w-full h-full flex flex-col md:flex-row items-start md:items-center gap-16 px-8 md:px-16 lg:px-24 xl:px-48 pt-14 pb-12 overflow-y-auto">

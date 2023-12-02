@@ -36,7 +36,7 @@ include('Partials/top_bar.php');
             <th>Purpose</th>
             <th>Date</th>
             <th>Status</th>
-            <th class="text-center">Remarks</th>
+            <th class="text-center">Reason</th>
             <th class="text-center">Action</th>
           </thead>
           <tbody>
