@@ -20,7 +20,7 @@ include('Partials/top_bar.php');
                   <h3 class="text-xl sm:text-4xl text-primary text-center font-bold mb-4">Welcome to Polangui Veterinary Clinic</h3>
                   <p class="max-w-[800px] text-sm sm:text-xl text-black text-center font-medium mb-8">Welcome to Polangui Veterinary Clinic and Grooming Center, where passion meets compassion in providing exceptional care for your beloved pets. At Polangui Veterinary Clinic and Grooming Center, we understand that your furry companions are more than just animals; they are cherished members of your family. At the heart of our mission is a commitment to the well-being of your pets. We strive to create a warm and welcoming environment, where your pets receive the highest standard of veterinary care.</p>
 
-                  <div class="flex flex-wrap justify-center gap-12">
+                  <div class="flex flex-wrap justify-center gap-12 mb-8">
                         <div>
                               <p class="text-sm sm:text-lg text-black text-center font-semibold uppercase">Monday - Friday</p>
                               <p class="text-sm sm:text-xl text-black text-center font-semibold">8:30 AM - 6:00 PM</p>
@@ -30,6 +30,14 @@ include('Partials/top_bar.php');
                               <p class="text-sm sm:text-xl text-black text-center font-semibold">8:30 AM - 12:00 NN</p>
                         </div>
                   </div>
+
+                  <p class="text-sm sm:text-lg text-black text-center font-semibold uppercase">Clinic Offered Services</p>
+                  <p class="text-sm sm:text-xl text-black text-center font-semibold">Grooming</p>
+                  <p class="text-sm sm:text-xl text-black text-center font-semibold">Consultation</p>
+                  <p class="text-sm sm:text-xl text-black text-center font-semibold">Check-up</p>
+                  <p class="text-sm sm:text-xl text-black text-center font-semibold">Vaccination</p>
+                  <p class="text-sm sm:text-xl text-black text-center font-semibold">Deworming</p>
+                  <p class="text-sm sm:text-xl text-black text-center font-semibold">Confinement</p>
             </div>
       </div>
     </main>

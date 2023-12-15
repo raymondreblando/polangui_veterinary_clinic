@@ -295,13 +295,13 @@ class RequestProvider {
             }
 
             $p_name = SystemFunctions::validate($postRequestData['p_name']);
-            $p_species = SystemFunctions::validate($postRequestData['p_species']);
-            $p_breed = SystemFunctions::validate($postRequestData['p_breed']);
+            $p_species = SystemFunctions::validate($postRequestData['p_species_others']);
+            $p_breed = SystemFunctions::validate($postRequestData['p_breed_others']);
             $p_gender = SystemFunctions::validate($postRequestData['p_gender']);
             $p_birth = SystemFunctions::validate($postRequestData['p_birth']);
             $p_weight = SystemFunctions::validate($postRequestData['p_weight']);
             $p_height = SystemFunctions::validate($postRequestData['p_height']);
-            
+
             if(empty($p_name) OR empty($p_species) OR empty($p_breed) OR empty($p_gender) OR empty($p_birth) OR empty($p_weight) OR empty($p_height)){
                   SystemFunctions::notification('Please fill up all the required field', 'error', 3000, 'no', '');
             }else{
@@ -329,8 +329,8 @@ class RequestProvider {
       $postRequestData = Flight::request()->data;
       $identifier = SystemFunctions::validate($postRequestData['p_identifier']);
       $p_name = SystemFunctions::validate($postRequestData['p_name']);
-      $p_species = SystemFunctions::validate($postRequestData['p_species']);
-      $p_breed = SystemFunctions::validate($postRequestData['p_breed']);
+      $p_species = SystemFunctions::validate($postRequestData['p_species_others']);
+      $p_breed = SystemFunctions::validate($postRequestData['p_breed_others']);
       $p_gender = SystemFunctions::validate($postRequestData['p_gender']);
       $p_birth = SystemFunctions::validate($postRequestData['p_birth']);
       $p_weight = SystemFunctions::validate($postRequestData['p_weight']);

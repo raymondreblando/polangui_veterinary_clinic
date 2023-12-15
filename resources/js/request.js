@@ -109,6 +109,9 @@ function transferData(formID, url) {
                               location.reload();
                         }, response.responseDuration);
                   }
+            },
+            error: function (response){
+                  console.log(response);
             }
       });
 }

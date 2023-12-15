@@ -1,4 +1,4 @@
-import { isExist, addEventListener, dynamicStyle } from "./utilities";
+import { isExist, addEventListener, dynamicStyle, setSpeciesBreed } from "./utilities";
 
 addEventListener('body', 'click', () => {
   const searchSelectDropdowns = document.querySelectorAll('.search-select-dropdown');
@@ -120,4 +120,17 @@ addEventListener('.file-input', 'change', (e) => {
 })
 addEventListener('.close-chat-box', 'click', () => {
   dynamicStyle('.chat-box', 'show', 'remove')
+})
+
+addEventListener('.species-select', 'change', ({ target }) => {
+  const value = target.value;
+  const speciesOthers = document.querySelector('.species-others');
+  setSpeciesBreed(value);
+  speciesOthers.value = value;
+
+  if (value === 'Others') { 
+    speciesOthers.value = '';
+    dynamicStyle('.species-others', 'hidden', 'remove');
+    dynamicStyle('.species-select', 'hidden');
+  }
 })

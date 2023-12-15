@@ -71,12 +71,61 @@ include('Partials/top_bar.php');
             </div>
             <div class="sm:col-span-2">
               <label for="p_species" class="block text-sm text-black font-semibold mb-1">Species</label>
-              <input type="text" name="p_species" value="<?php echo $petsData->pet_species ?>" class="w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Enter pet species">
+              <?php 
+                  $selectedSpecies = $petsData->pet_species;
+                  $speciesOptions = array('Cat','Dog','Others');
+                  if(in_array($selectedSpecies,$speciesOptions)):
+                ?>
+              <select name="p_species" class="species-select w-full h-12 text-xs text-ash-gray font-medium bg-light-gray px-4 rounded-sm" required>
+                  <option value="">Select Species</option>
+                  <?php
+                    foreach ($speciesOptions as $speciesOption) :
+                  ?>
+                    <option value="<?= $speciesOption ?>" <?= $speciesOption == 
+                  $selectedSpecies ? 'selected' : '' ?>><?= $speciesOption ?></option>
+                  <?php
+                    endforeach
+                  ?>
+              </select>
+              <input type="text" name="p_species_others" value="<?php echo $petsData->pet_species ?>" class="species-others hidden w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Please specify" required>
+              <?php
+                else :
+              ?>
+                <input type="text" name="p_species_others" value="<?php echo $petsData->pet_species ?>" class="species-others w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Please specify" required>
+              <?php
+                endif
+              ?>
               <p class="hidden text-xs font-semibold text-red-500 mt-2">Species is required</p>
             </div>
             <div class="sm:col-span-2">
               <label for="p_breed" class="block text-sm text-black font-semibold mb-1">Breed</label>
-              <input type="text" name="p_breed" value="<?php echo $petsData->pet_breed ?>" class="w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Enter pet breed">
+                <?php
+                  $selectedBreed = $petsData->pet_breed;
+                  $breedlist = array(
+                    'cat' => array('Abyssinian Cat','Bengal Cat','Burmese','Persian Cat','Pusakal','Siamese Cat','Others'),
+                    'dog' => array('American Bully','French Bulldog','Golden Retriever','Siberian Husky','Poodle','Chihuahua','Chow Chow','Pomerauian','Shih Tzu','Others')
+                  );
+
+                  if (array_key_exists(strtolower($selectedSpecies), $breedlist)) :
+                ?>
+                <select name="p_breed" class="breed-select w-full h-12 text-xs text-ash-gray font-medium bg-light-gray px-4 rounded-sm" required>
+                  <option value="">Select Breed</option>
+                  <?php
+                    foreach ($breedlist[strtolower($selectedSpecies)] as $breed) :
+                  ?>
+                    <option value="<?= $breed ?>" <?= $breed == $selectedBreed ? 'selected' : '' ?>><?= $breed ?></option>
+                  <?php
+                    endforeach
+                  ?>
+              </select>
+              <input type="text" name="p_breed_others" value="<?php echo $petsData->pet_breed ?>" class="breed-others hidden w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Please specify" required>
+              <?php
+                else :
+              ?>
+                <input type="text" name="p_breed_others" value="<?php echo $petsData->pet_breed ?>" class="breed-others w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Please specify" required>
+              <?php
+                endif
+              ?>
               <p class="hidden text-xs font-semibold text-red-500 mt-2">Species is required</p>
             </div>
             <div class="sm:col-span-2">

@@ -16,7 +16,7 @@ if($_SESSION['role'] === "304d16e4-f405-47f8-9f75-c961c62f01f2"){
 }
 $notificationCountSeen = $database->rowCount();
 ?>
-<div class="fixed top-0 left-0 md:left-[220px] w-full md:w-[calc(100vw-220px)] flex items-center justify-between gap-3 bg-white border-b border-b-gray-300 py-4 px-6">
+<div class="fixed top-0 left-0 md:left-[220px] w-full md:w-[calc(100vw-220px)] flex items-center justify-between gap-3 bg-white border-b border-b-gray-300 py-4 px-6 z-[2]">
       <div class="flex items-center gap-3">
         <button class="show-sidebar block md:hidden text-black font-semibold">
           <i class="ri-menu-2-line"></i>

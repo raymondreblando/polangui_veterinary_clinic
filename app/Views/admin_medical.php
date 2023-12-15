@@ -43,7 +43,7 @@ include('Partials/top_bar.php');
                         foreach($database->fetchAll() as $row):
             ?>
                         <div class="bg-primary p-6 mb-4 rounded-sm">
-                              <p class="text-xs text-white font-medium mb-6"><?= SystemFunctions::formatDateTime($row->m_date_added, '') ?></p>
+                              <p class="text-xs text-white font-medium mb-6"><?= SystemFunctions::formatDateTime($row->m_date_added, 'F d, Y h:i A') ?></p>
                               <div class="flex flex-col gap-4 mb-6">
                               <div class="flex flex-wrap gap-6">
                               <div>

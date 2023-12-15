@@ -65,12 +65,21 @@ include('Partials/top_bar.php');
             </div>
             <div class="sm:col-span-2">
               <label for="p_species" class="block text-sm text-black font-semibold mb-1">Species</label>
-              <input type="text" name="p_species" class="w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Enter pet species" required>
+              <select name="p_species" class="species-select w-full h-12 text-xs text-ash-gray font-medium bg-light-gray px-4 rounded-sm" required>
+                <option value="">Select Species</option>
+                <option value="Cat">Cat</option>
+                <option value="Dog">Dog</option>
+                <option value="Others">Others</option>
+              </select>
+              <input type="text" name="p_species_others" class="species-others hidden w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Please specify" required>
               <p class="hidden text-xs font-semibold text-red-500 mt-2">Species is required</p>
             </div>
             <div class="sm:col-span-2">
               <label for="p_breed" class="block text-sm text-black font-semibold mb-1">Breed</label>
-              <input type="text" name="p_breed" class="w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Enter pet breed" required>
+              <select name="p_breed" class="breed-select w-full h-12 text-xs text-ash-gray font-medium bg-light-gray px-4 rounded-sm" required>
+                <option value="">Select Breed</option>
+              </select>
+              <input type="text" name="p_breed_others" class="breed-others hidden w-full h-12 text-xs text-ash-gray font-medium placeholder:text-ash-gray bg-gray-100 px-4 rounded-sm" placeholder="Please specify" required>
               <p class="hidden text-xs font-semibold text-red-500 mt-2">Species is required</p>
             </div>
             <div class="sm:col-span-2">
